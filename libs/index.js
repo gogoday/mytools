@@ -54,7 +54,7 @@ async function readFileByLine(file, cb) {
 }
 
 /**
- * mysql url:'mysql://root:qwe+-123@localhost:3306/tag'
+ * mysql url:'mysql://root:root@localhost:3306/tag'
  */
 async function getMysqlConn(mysqlurl) {
   const connection = mysql.createConnection(mysqlurl);
