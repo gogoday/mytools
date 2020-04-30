@@ -6,7 +6,8 @@ const mysql = require('mysql')
 const csv = require('csv-parser')
 const { parseAsync } = require('json2csv');
 const log4js = require('log4js');
-const myInterval;
+const outputStream = process.stdout;
+let myInterval;
 
 function initLog(filename) {
   log4js.configure({
@@ -45,11 +46,8 @@ async function readFileByLine(file, cb) {
   })
 
   for await (const line of rl) {
-    await new Promise((resolve, reject) => {
-      let _line = line.toString()
-      cb && await cb(_line)
-      resolve(true)
-    })
+    let _line = line.toString()
+    cb && await cb(_line)
   }
 }
 
@@ -81,7 +79,7 @@ async function queryMysql(connection, table, wheres, order ) {
         console.error(err)
       }
       resolve(result)
-    }
+    })
   })
 }
 
@@ -176,14 +174,25 @@ function popSort(sortArr, sortKey) {
   return sortArr
 }
 
+function printLogInOneLine(log) {
+  
+  let length = log.length * 100 * -1
+  //console.log(length)
+  readline.moveCursor(outputStream, length, 0);
+  //清除当前光标后的所有文字信息，以便接下来输出信息能写入到控制台
+  readline.clearScreenDown(outputStream);
+  outputStream.write(log);
+}
+
 module.exports = {
   initLog,
   readFileByLine,
   getMysqlConn,
-  queryMysql
+  queryMysql,
   msleep,
   sleep,
   quickSort,
   popSort,
+  printLogInOneLine
 }
 

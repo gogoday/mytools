@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/gogoday/mytools#readme",
   "dependencies": {
+    "csv-parser": "^2.3.2",
+    "json2csv": "^5.0.1",
     "koa": "^2.5.2",
-    "koa-static": "^5.0.0"
+    "koa-static": "^5.0.0",
+    "log4js": "^6.2.1",
+    "mysql": "^2.18.1"
   }
 }
