@@ -1,5 +1,5 @@
 const config = {
-  staticDir: '/Users/sampsonwang/workspace/mytools/static',
+  staticDir: './static',
   port: 8899
 }
 module.exports = config;
