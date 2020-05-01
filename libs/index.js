@@ -10,6 +10,7 @@ const outputStream = process.stdout;
 let myInterval;
 
 function initLog(filename) {
+  filename = filename || './log4js.log'
   log4js.configure({
     appenders: {
       csv: {type: 'file', filename, encoding: 'utf-8',
@@ -54,7 +55,7 @@ async function readFileByLine(file, cb) {
 /**
  * mysql url:'mysql://root:root@localhost:3306/tag'
  */
-async function getMysqlConn(mysqlurl) {
+function getMysqlConn(mysqlurl) {
   const connection = mysql.createConnection(mysqlurl);
   connection.connect();
   return connection
@@ -66,14 +67,34 @@ async function getMysqlConn(mysqlurl) {
  * wheres [{comun: string; value: string|num; op: string}]
  * order
  */
-async function queryMysql(connection, table, wheres, order ) {
+async function queryMysql(connection, sql, values) {
+  return new Promise((resolve, reject) => {
+    let _sql = mysql.format(sql, values);
+    //console.log(sql)
+    connection.query(_sql, (err, result) => {
+      if (err) {
+        console.error(err)
+      }
+      resolve(result)
+    })
+  })
+}
+
+/**
+ * connection: mysql connect
+ * table
+ * wheres [{comun: string; value: string|num; op: string}]
+ * order
+ */
+async function searchMysql(connection, table, wheres, order ) {
   return new Promise((resolve, reject) => {
     let where = _conditionForFilter(wheres), order_str = '';
     let {query, values} = where;
     if (order) {
       order_str = ` ORDER BY ${order.column} ${order.type || 'DESC'}`;
     }
-    let sql = mysql.format(`select * from ${table} ${query} ${order_str}`, values);
+    let sql = mysql.format(`select * from ${table} where ${query} ${order_str}`, values);
+    //console.log(sql)
     connection.query(sql, (err, result) => {
       if (err) {
         console.error(err)
@@ -189,10 +210,13 @@ module.exports = {
   readFileByLine,
   getMysqlConn,
   queryMysql,
+  searchMysql,
   msleep,
   sleep,
   quickSort,
   popSort,
-  printLogInOneLine
+  printLogInOneLine,
+  outputCSV,
+  getDataFromCsv
 }
 
