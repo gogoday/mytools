@@ -71,6 +71,7 @@ async function queryMysql(connection, sql, values) {
   return new Promise((resolve, reject) => {
     let _sql = mysql.format(sql, values);
     //console.log(sql)
+    //resolve(true)
     connection.query(_sql, (err, result) => {
       if (err) {
         console.error(err)
