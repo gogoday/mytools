@@ -1,3 +1,4 @@
 node_modules
 dist
 codesync_config.js
+.DS_Store

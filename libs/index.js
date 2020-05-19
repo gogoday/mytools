@@ -7,6 +7,8 @@ const csv = require('csv-parser')
 const { parseAsync } = require('json2csv');
 const log4js = require('log4js');
 const outputStream = process.stdout;
+const axios = require('axios')
+
 let myInterval;
 
 function initLog(filename) {
@@ -206,6 +208,10 @@ function printLogInOneLine(log) {
   outputStream.write(log);
 }
 
+async function http(obj) {
+  return await axios(obj)
+}
+
 module.exports = {
   initLog,
   readFileByLine,
@@ -218,6 +224,7 @@ module.exports = {
   popSort,
   printLogInOneLine,
   outputCSV,
-  getDataFromCsv
+  getDataFromCsv,
+  http
 }
 
