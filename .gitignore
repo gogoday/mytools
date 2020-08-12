@@ -1,4 +1,6 @@
 node_modules
 dist
-codesync_config.js
+codesync_config.*
 .DS_Store
+/taf
+/libs/hbase.js

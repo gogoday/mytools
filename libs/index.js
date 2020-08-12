@@ -225,6 +225,7 @@ module.exports = {
   printLogInOneLine,
   outputCSV,
   getDataFromCsv,
-  http
+  http,
+  mysql,
 }
 
